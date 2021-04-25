@@ -3,15 +3,18 @@ from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
 import requests
 import math
+#setting up endpoints
 nodeServerUrl = "http://localhost:3001/data"
 nodePostEndpoint ="http://localhost:3001/pythonSentimentAnalysis" 
 azureEndpoint = "https://covidonline.cognitiveservices.azure.com/"
+#key required for authentification to Text Analytics API
 key = "68332c92329c4dba8a2c6022cc6de9fb"
-data = requests.get(nodeServerUrl);
+data = requests.get(nodeServerUrl)
 category = ''
 dataJson = data.json()
 formattedPosts = [[]]
 formattedPostsTextOnly = [[]]
+#only store posts that have 4 fields and dont have an empty text field
 for item in dataJson:
         if item['text'] != "" and len(item) == 4:
             item['text'] = item['text'].replace("\r","")
@@ -39,6 +42,7 @@ def sentiment_analysis_example(client,list_name):
     categories =[]
     totalPostlength = len(list_name[0])
     print(totalPostlength)
+    #determine the amount of calls that will need to be made to the microsoft azure api
     amountofIterations = math.ceil(totalPostlength/10)
     print(amountofIterations)
     numOfCalls = 0
@@ -48,10 +52,12 @@ def sentiment_analysis_example(client,list_name):
             print(numOfCalls)
             numOfCalls +=1
             for row in documents:
+                #send posts off for sentiment analysis
                 response = client.analyze_sentiment(documents = row)
                 i = 0
                 while i < len(documents[0]):
                     i+=1
+                    #categorise the results
                     try:
                         if response[i].sentiment == "positive":
                             senti_results['Positive'] += 1
@@ -72,12 +78,13 @@ def sentiment_analysis_example(client,list_name):
     count = 0
     returnSet=[]
     print(senti_results)
+    #format posts to send back to the node server
     for item in formattedPosts[0]:
             returnSet.append({'text':item[0],'isTwitter':item[1],'timeCreated':item[2],'category':categories[count]})
             count +=1
-            
-    print(returnSet)
+
     print(json.dumps(returnSet))
+    #send posts alongside their category to node server
     for item in returnSet:
             sendOff=requests.post(nodePostEndpoint, data=item)
     
@@ -85,7 +92,6 @@ def sentiment_analysis_example(client,list_name):
 
 
 #Assigning authentication function to object
-print("Hello World")
 client = authenticate_client()
 sentiment = sentiment_analysis_example(client,formattedPostsTextOnly)
 exit()

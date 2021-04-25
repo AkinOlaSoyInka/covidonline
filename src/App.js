@@ -23,19 +23,25 @@ class App extends React.Component {
     var self = this
     var posts = {}
     var formatPosts =[]
+    // get values from the input fields in the form
     const term = document.getElementById('searchTerm').value;
     const startDateValue = document.getElementById("startDate").value;
     const endDateValue = document.getElementById("endDate").value;
+    // convert the start dates and end dates into epoch values 
     const dateCheck = this.formatDates(startDateValue, endDateValue);
+    //if the fields in the form are filled, search the database
     if (dateCheck && term !== ""){
     axios.get(`http://192.168.1.153:3001/data/${term}`)
     .then(function(response){
       if (response.data != ""){
       response.data.map((item, key) => {
+        // check if dates of creation for the posts are within start and end dates
         if (parseInt(item.timeCreated) >= (dateCheck[0]/1000) && parseInt(item.timeCreated) < ((dateCheck[1]/1000) + 86400)){
           formatPosts.push(item);
         }
       })
+
+      //store the results of the search
       if (formatPosts.length > 0){
       posts = JSON.stringify(formatPosts);
       self.setState({ 
@@ -44,6 +50,7 @@ class App extends React.Component {
        })
       }
       } else{
+        // if fields in the form are not filled end search
         self.setState({ 
           results: {},
           resultsReturned: false,
@@ -61,11 +68,14 @@ class App extends React.Component {
   }
 
   componentDidMount(){
+    //makes call to Reddit API to store and analyse more posts
     axios.get(`http://192.168.1.153:3001/storePosts`)
     return this.renderForm()
 
   }
   async getExtraInfo(index){
+    //stores more information about an individual post
+    //hides graphical and numerical view elements and shows extra info element
     var self = this;
     const results = JSON.parse(this.state.results)
     var extraInfoItem ={}
@@ -79,6 +89,7 @@ class App extends React.Component {
   }
 
   displayExtraInfo(){
+    // renders extra info element
     if (this.state.showExtraInfo == true){
       return(
         <div className="extraInfo">
@@ -93,6 +104,7 @@ class App extends React.Component {
   }
 
   formatDates(startDate, endDate){
+    // turns dates into epoch values
     if (startDate !== "" && endDate !== ""){
       const dates = [Date.parse(startDate), Date.parse(endDate)];
       return dates
@@ -103,6 +115,7 @@ class App extends React.Component {
   }
 
   formatResults(array){
+    //formats results from json object into a dynamic list that is interactive
     var messages = []
     for (var i=0;i<array.length;i++){
       messages.push(array[i].text);
@@ -118,6 +131,7 @@ class App extends React.Component {
   }
 
   toggleView(){
+    // based on value selected in 'View' input field, certain elements are hidden and displayed
     if (this.state.resultsReturned == true){
       const mode = document.getElementById('viewSelector').value
       if (mode == "Numerical"){
@@ -133,6 +147,7 @@ class App extends React.Component {
   }
 
   formatStatistics(array){
+    // collects the categories of all the posts
     var statistics = { categories:{positive:0, neutral:0, negative:0, unknown:0}};
     for (var i=0;i<array.length;i++){
       if (array[i].category == 'positive'){
@@ -153,6 +168,7 @@ class App extends React.Component {
   }
 
   displayNumericalView(array){
+    // renders element that will display the statstical breakdown of the posts
     const numbers = this.formatStatistics(array);
     if (this.state.numericalView == true){
       return(
@@ -167,6 +183,7 @@ class App extends React.Component {
   }
 
   displayGraphicalView(array){
+    // creates a pie chart to display a graphical breakdown of the posts
     const numbers = this.formatStatistics(array);
     const pieChartData = {
       labels: ['Positive', 'Negative', 'Neutral', 'Unkown'],
@@ -190,7 +207,6 @@ class App extends React.Component {
         }
       ]
     };
-    console.log(pieChartData);
     if (this.state.graphicalView == true){
       return(
         <div className='graphical'>
@@ -214,6 +230,7 @@ class App extends React.Component {
   }
 
    visibilityChecker(){
+    // this function renders the results when a successful search is returned
     if (this.state.resultsReturned == false){
       return (
         <div className='App-NoResult'><h2>No Results Found</h2></div>
@@ -235,6 +252,7 @@ class App extends React.Component {
   };
 
   renderForm(){
+    // renders form that user will user to search for posts as well as the results
     var self = this;
     return(
       <div>

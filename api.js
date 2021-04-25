@@ -7,7 +7,7 @@ const port= 3001;
 const dbUrl = 'mongodb://localhost:27017';
 var  runSentimentAnalysis = require('./src/SentimentAnalysis');
 
-
+// connect to mongodb
 var dbConn = MongoClient.connect(dbUrl, {
     useUnifiedTopology: true
 })
@@ -15,9 +15,9 @@ var dbConn = MongoClient.connect(dbUrl, {
 
 
 dbConn.then(function(client){
+    //setting up variables
     var database = client.db('covidonline');
     var collection = database.collection('posts');
-    var tesCollection = database.collection('testPosts');
     var classificationCollection = database.collection('postsClassified');
 
     var app = express();
@@ -45,8 +45,8 @@ dbConn.then(function(client){
     })
 
     app.post('/pythonSentimentAnalysis', function(req,res){
-        console.log("req.body");
-        database.collection('postsClassified').insertOne({text:req.body.text,
+        // insert individual post into table of classified posts
+        classificationCollection.insertOne({text:req.body.text,
             timeCreated:req.body.timeCreated,
             isTwitter:req.body.isTwitter,
             category:req.body.category
@@ -55,8 +55,9 @@ dbConn.then(function(client){
     })
 
     app.get('/data/:term', function (req,res){
+        //search classified posts table for word passed in the url
         console.log(req.params);
-        database.collection('postsClassified').find({"text": RegExp(req.params.term, 'i')}
+        classificationCollection.find({"text": RegExp(req.params.term, 'i')}
         ).toArray(function (err,data){
             res.send(data)
 
@@ -64,6 +65,7 @@ dbConn.then(function(client){
         
     })
     app.get('/data', function (req,res){
+        // used by python script to get all posts in the non classified table
         collection.find({}).toArray(function (err,data){
             res.send(data)
 
