@@ -1,0 +1,142 @@
+.App {
+  text-align: center;
+  background-color: white;
+}
+
+.App-header {
+  background-color: #0D0ACB;
+  height: 164px;
+  width: 885px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #11D2E0;
+  border-radius: 14px;
+  margin-left: 80px;
+  margin-top: 60px;
+}
+.App-body{
+  color:#0D0ACB ;
+}
+.App-form{
+ margin-top: 20px;
+ position: relative;
+ left: -230px;
+}
+.App-NoResult{
+  color:#0D0ACB;
+
+}
+input{
+  padding-right: 30px;
+  margin-right: 10px;
+  background-color: #11D2E0;
+  border-radius: 7px;
+}
+
+.App-result{
+  width: 85%;
+  border-color: #0D0ACB;
+  border-radius: 14px;
+  display: inline-block;
+  margin-right: 800px;
+}
+.App-link {
+  color: #0D0ACB;
+}
+
+.resultsList{
+  max-height: 300px;
+  max-width: 100%;
+  list-style-type: none;
+  overflow-y: scroll;
+  overflow-x: auto;
+  word-wrap: break-word;
+}
+
+.individualPost{
+  border-style: double;
+  border-color: #120576;
+  padding: 10px;
+  border-radius: 7px;
+
+}
+
+.posts{
+  position: relative;
+  width: 385px;
+  height: 311px;
+  border: 7px solid #61dafb;
+  color: #120576;
+  display: inline-block;
+  background: white;
+  margin-top: 15px;
+  padding-right: 5px;
+  padding-bottom: 15px;
+  border-radius: 7px;
+}
+
+.numerical{
+  position: relative;
+  top: -70px;
+  width: 193px;
+  height: 224px;
+  background: #120576;
+  border: 7px solid #61dafb;
+  color: #11D2E0;
+  font-size: x-large;
+  display: inline-block;
+  margin-left: 30px;
+  margin-right: 15px;
+  padding-bottom: 30px;
+}
+
+.graphical{
+  width: 385px;
+  height: 311px;
+  background: #61dafb;
+  border: 15px, #61dafb;
+  display: inline-block;
+  margin-top: 15px;
+  margin-left: 30px;
+  margin-right: 15px;
+}
+
+.extraInfo{
+  width: 385px;
+  height: 311px;
+  border: 7px solid #61dafb;
+  color: #120576;
+  background: #61dafb;
+  margin-top: 15px;
+  margin-left: 50px;
+  margin-right: 15px;
+  border-radius: 7px;
+  display: inline-block;
+  overflow-y: scroll;
+  overflow-x: auto;
+
+}
+ 
+/*Scrollbar customizations
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #120576; 
+}
