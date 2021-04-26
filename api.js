@@ -45,6 +45,7 @@ dbConn.then(function(client){
     })
 
     app.post('/pythonSentimentAnalysis', function(req,res){
+        console.log(req)
         // insert individual post into table of classified posts
         classificationCollection.insertOne({text:req.body.text,
             timeCreated:req.body.timeCreated,

@@ -6,9 +6,9 @@ import math
 #setting up endpoints
 nodeServerUrl = "http://localhost:3001/data"
 nodePostEndpoint ="http://localhost:3001/pythonSentimentAnalysis" 
-azureEndpoint = "https://covidonline.cognitiveservices.azure.com/"
+azureEndpoint = "https://covidonline2.cognitiveservices.azure.com/"
 #key required for authentification to Text Analytics API
-key = "68332c92329c4dba8a2c6022cc6de9fb"
+key = "d83cb74e8f5847aa902898eb09bc74ab"
 data = requests.get(nodeServerUrl)
 category = ''
 dataJson = data.json()
