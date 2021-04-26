@@ -27,7 +27,6 @@ dbConn.then(function(client){
     app.use(bodyParser.urlencoded({ extended: true}))
 
     app.get('/storePosts', function (req,res) {
-        classificationCollection.drop();
         axios.get("https://www.reddit.com/r/COVID.json")
         .then(function(response){
              var array = response.data.data.children;
