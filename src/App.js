@@ -69,7 +69,9 @@ class App extends React.Component {
 
   componentDidMount(){
     //makes call to Reddit API to store and analyse more posts
-    axios.get(`http://192.168.1.153:3001/storePosts`)
+    axios.get(`http://192.168.1.153:3001/storePosts`).catch(function(error){
+      console.log(error.message);
+    })
     return this.renderForm()
 
   }
