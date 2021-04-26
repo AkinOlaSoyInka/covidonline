@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 
  module.exports = function() { 
-    const python = spawn('python', ['sentimentAnalysis.py']);
+    const python = spawn('python3', ['sentimentAnalysis.py']);
     python.stdout.on('data', (data) => {
         console.log('Python',data.toString());
     })
