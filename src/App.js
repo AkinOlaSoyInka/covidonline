@@ -31,7 +31,7 @@ class App extends React.Component {
     const dateCheck = this.formatDates(startDateValue, endDateValue);
     //if the fields in the form are filled, search the database
     if (dateCheck && term !== ""){
-    axios.get(`http://192.168.1.153:3001/data/${term}`)
+    axios.get(`http://localhost:3001/data/${term}`)
     .then(function(response){
       if (response.data != ""){
       response.data.map((item, key) => {
@@ -69,7 +69,7 @@ class App extends React.Component {
 
   componentDidMount(){
     //makes call to Reddit API to store and analyse more posts
-    axios.get(`http://192.168.1.153:3001/storePosts`).catch(function(error){
+    axios.get(`http://localhost:3001/storePosts`).catch(function(error){
       console.log(error.message);
     })
     return this.renderForm()
